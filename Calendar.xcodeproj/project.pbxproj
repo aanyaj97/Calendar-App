@@ -106,9 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				38E285C721C6FE6E00C5E439 /* Models */,
-				389711A321A8EB9700297C11 /* AppDelegate.swift */,
-				389711A521A8EB9700297C11 /* ViewController.swift */,
-				389711A721A8EB9700297C11 /* Main.storyboard */,
+				38A2F53121C8A033004E6645 /* Controllers */,
+				38A2F53021C8A024004E6645 /* Views */,
 				389711AD21A8EB9700297C11 /* Assets.xcassets */,
 				389711AF21A8EB9700297C11 /* LaunchScreen.storyboard */,
 				389711B221A8EB9700297C11 /* Info.plist */,
@@ -135,11 +134,28 @@
 			path = CalendarUITests;
 			sourceTree = "<group>";
 		};
+		38A2F53021C8A024004E6645 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				389711A721A8EB9700297C11 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		38A2F53121C8A033004E6645 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				389711A521A8EB9700297C11 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		38E285C721C6FE6E00C5E439 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				38874EA021C6EBC10071C2BE /* Sector.swift */,
+				389711A321A8EB9700297C11 /* AppDelegate.swift */,
 				38874E9E21C6EB810071C2BE /* SQLiteInterface.swift */,
+				38874EA021C6EBC10071C2BE /* Sector.swift */,
 				38E285C521C6FE6600C5E439 /* ToDos.swift */,
 			);
 			path = Models;
