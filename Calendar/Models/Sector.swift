@@ -38,7 +38,7 @@ class Sector {
     }
     
     func saveToDB(db: OpaquePointer) {
-        insertData(table: "Sectors", num: Int32(self.id), desc: self.name as NSString, r: Int32(self.color.0), g: Int32(self.color.1), b: Int32(self.color.2), db: db)
+        insertSectorData(table: "Sectors", num: Int32(self.id), desc: self.name as NSString, r: Int32(self.color.0), g: Int32(self.color.1), b: Int32(self.color.2), db: db)
     }
     
 }

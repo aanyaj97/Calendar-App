@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		38874E9F21C6EB810071C2BE /* SQLiteSectorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38874E9E21C6EB810071C2BE /* SQLiteSectorInterface.swift */; };
+		38874E9F21C6EB810071C2BE /* SQLiteInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38874E9E21C6EB810071C2BE /* SQLiteInterface.swift */; };
 		38874EA121C6EBC10071C2BE /* Sector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38874EA021C6EBC10071C2BE /* Sector.swift */; };
 		389711A421A8EB9700297C11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389711A321A8EB9700297C11 /* AppDelegate.swift */; };
 		389711A621A8EB9700297C11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389711A521A8EB9700297C11 /* ViewController.swift */; };
@@ -39,7 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		38874E9E21C6EB810071C2BE /* SQLiteSectorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSectorInterface.swift; sourceTree = "<group>"; };
+		38874E9E21C6EB810071C2BE /* SQLiteInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteInterface.swift; sourceTree = "<group>"; };
 		38874EA021C6EBC10071C2BE /* Sector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sector.swift; sourceTree = "<group>"; };
 		389711A021A8EB9700297C11 /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		389711A321A8EB9700297C11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				38874EA021C6EBC10071C2BE /* Sector.swift */,
-				38874E9E21C6EB810071C2BE /* SQLiteSectorInterface.swift */,
+				38874E9E21C6EB810071C2BE /* SQLiteInterface.swift */,
 				38E285C521C6FE6600C5E439 /* ToDos.swift */,
 				38E285C821C7010200C5E439 /* SQLiteToDoInterface.swift */,
 			);
@@ -286,7 +286,7 @@
 				38874EA121C6EBC10071C2BE /* Sector.swift in Sources */,
 				389711AC21A8EB9700297C11 /* Calendar.xcdatamodeld in Sources */,
 				389711A421A8EB9700297C11 /* AppDelegate.swift in Sources */,
-				38874E9F21C6EB810071C2BE /* SQLiteSectorInterface.swift in Sources */,
+				38874E9F21C6EB810071C2BE /* SQLiteInterface.swift in Sources */,
 				38E285C921C7010200C5E439 /* SQLiteToDoInterface.swift in Sources */,
 				38E285C621C6FE6600C5E439 /* ToDos.swift in Sources */,
 			);

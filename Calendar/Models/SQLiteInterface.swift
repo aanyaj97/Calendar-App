@@ -28,7 +28,7 @@ func openConnection() -> OpaquePointer? {
 }
 
 
-func createTable(name: String, db: OpaquePointer) {
+func createSectorTable(name: String, db: OpaquePointer) {
     let stringStatement = "CREATE TABLE IF NOT EXISTS [" + name + "] ( \n"
         + "Id INT PRIMARY KEY NOT NULL,\n"
         + "NAME CHAR(255),\n"
@@ -48,7 +48,7 @@ func createTable(name: String, db: OpaquePointer) {
     sqlite3_finalize(createPointer)
 }
 
-func deleteTable(name: String, db: OpaquePointer) {
+func deleteSectorTable(name: String, db: OpaquePointer) {
     let deleteStatement = "DROP TABLE IF EXISTS [" + name + "]"
     var deletePointer : OpaquePointer? = nil
     if sqlite3_prepare_v2(db, deleteStatement, -1, &deletePointer, nil) == SQLITE_OK {
@@ -63,7 +63,7 @@ func deleteTable(name: String, db: OpaquePointer) {
     sqlite3_finalize(deletePointer)
 }
 
-func returnTables(db: OpaquePointer) -> [String] {
+func returnSectorTables(db: OpaquePointer) -> [String] {
     var tables: [String] = []
     let returnStatement = "SELECT name FROM sqlite_master where type = 'table'"
     var returnPointer : OpaquePointer? = nil
@@ -80,7 +80,7 @@ func returnTables(db: OpaquePointer) -> [String] {
     return tables
 }
 
-func renameTable(oldName: String, newName: String, db: OpaquePointer?) {
+func renameSectorTable(oldName: String, newName: String, db: OpaquePointer?) {
     let renameStatement = "ALTER TABLE [" + oldName + "] \n"
         + "RENAME TO [" + newName + "];"
     var renamePointer: OpaquePointer? = nil
@@ -96,7 +96,7 @@ func renameTable(oldName: String, newName: String, db: OpaquePointer?) {
     sqlite3_finalize(renamePointer)
 }
 
-func insertData(table: String, num: Int32, desc: NSString, r: Int32, g: Int32, b: Int32, db: OpaquePointer) {
+func insertSectorData(table: String, num: Int32, desc: NSString, r: Int32, g: Int32, b: Int32, db: OpaquePointer) {
     let stringStatement = "INSERT OR IGNORE INTO [" + table + "] (Id, Name, Color) Values (?, ?, ?)"
     var insertPointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, stringStatement, -1, &insertPointer, nil) == SQLITE_OK {
@@ -123,7 +123,7 @@ func insertData(table: String, num: Int32, desc: NSString, r: Int32, g: Int32, b
     sqlite3_finalize(insertPointer)
 }
 
-func returnData(table: String, db: OpaquePointer) -> [Sector] {
+func returnSectorData(table: String, db: OpaquePointer) -> [Sector] {
     var sectorData: [Sector] = []
     let returnStatement = "SELECT * FROM [" + table + "];"
     var returnPointer: OpaquePointer? = nil
@@ -149,7 +149,7 @@ func returnData(table: String, db: OpaquePointer) -> [Sector] {
     return sectorData
 }
 
-func deleteData(table: String, id: Int32, db: OpaquePointer) {
+func deleteSectorData(table: String, id: Int32, db: OpaquePointer) {
     let deleteStatement = "DELETE FROM [" + table + "] WHERE Id = " + String(id) + ";"
     var deletePointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, deleteStatement, -1, &deletePointer, nil) == SQLITE_OK {
@@ -164,7 +164,7 @@ func deleteData(table: String, id: Int32, db: OpaquePointer) {
     sqlite3_finalize(deletePointer)
 }
 
-func updateName(name: String, table: String, id: Int32, db: OpaquePointer) {
+func updateSectorName(name: String, table: String, id: Int32, db: OpaquePointer) {
     let updateStatement = "UPDATE [" + table + "] SET Name = '" + name + "' WHERE Id = " + String(id) + ";"
     var updatePointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, updateStatement, -1, &updatePointer, nil) == SQLITE_OK {
@@ -179,7 +179,7 @@ func updateName(name: String, table: String, id: Int32, db: OpaquePointer) {
     sqlite3_finalize(updatePointer)
 }
 
-func updateColor(r: Int32, g: Int32, b: Int32, table: String, id: Int32, db: OpaquePointer) {
+func updateSectorColor(r: Int32, g: Int32, b: Int32, table: String, id: Int32, db: OpaquePointer) {
     let updateStatement = "UPDATE [" + table + "] SET Red = " + String(r) + ", \n"
                           + "Green = " + String(g) + ", \n"
                           + "Blue = " + String(b)
