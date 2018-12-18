@@ -15,6 +15,7 @@ struct Path {
     static let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("RoutineDatabase.sqlite")
 }
 
+// open database connection
 
 func openConnection() -> OpaquePointer? {
     var db: OpaquePointer? = nil
@@ -27,13 +28,13 @@ func openConnection() -> OpaquePointer? {
     }
 }
 
-
+// create tables
 func createSectorTable(name: String, db: OpaquePointer) {
     let stringStatement = "CREATE TABLE IF NOT EXISTS [" + name + "] ( \n"
         + "Id INT PRIMARY KEY NOT NULL,\n"
         + "NAME CHAR(255),\n"
-        + "RED INT \n"
-        + "GREEN INT \n"
+        + "RED INT, \n"
+        + "GREEN INT, \n"
         + "BLUE INT);"
     var createPointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, stringStatement, -1, &createPointer, nil) == SQLITE_OK {
@@ -47,6 +48,27 @@ func createSectorTable(name: String, db: OpaquePointer) {
     }
     sqlite3_finalize(createPointer)
 }
+
+
+func createToDoTable(sectorName: String, db: OpaquePointer) {
+    let stringStatement = "CREATE TABLE IF NOT EXISTS [" + sectorName + "ToDo" + "] ( \n"
+        + "Id INT PRIMARY KEY NOT NULL,\n"
+        + "NAME CHAR(255),\n"
+        + "STATUS INT);"
+    var createPointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, stringStatement, -1, &createPointer, nil) == SQLITE_OK {
+        if sqlite3_step(createPointer) == SQLITE_DONE {
+            print("\(sectorName) table created.")
+        } else {
+            print("\(sectorName) table was not created.")
+        }
+    } else {
+        print("The table already exists or there is an error in the SQLite code.")
+    }
+    sqlite3_finalize(createPointer)
+}
+
+// delete tables
 
 func deleteSectorTable(name: String, db: OpaquePointer) {
     let deleteStatement = "DROP TABLE IF EXISTS [" + name + "]"
@@ -63,7 +85,24 @@ func deleteSectorTable(name: String, db: OpaquePointer) {
     sqlite3_finalize(deletePointer)
 }
 
-func returnSectorTables(db: OpaquePointer) -> [String] {
+func deleteToDoTable(sectorName: String, db: OpaquePointer) {
+    let deleteStatement = "DROP TABLE IF EXISTS [" + sectorName + "ToDo" + "]"
+    var deletePointer : OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, deleteStatement, -1, &deletePointer, nil) == SQLITE_OK {
+        if sqlite3_step(deletePointer) == SQLITE_DONE {
+            print("\(sectorName) table sucessfully deleted")
+        } else {
+            print("\(sectorName) could not be deleted")
+        }
+    } else {
+        print("Delete statement could not be prepared.")
+    }
+    sqlite3_finalize(deletePointer)
+}
+
+// return list of names of tables
+
+func returnTables(db: OpaquePointer) -> [String] {
     var tables: [String] = []
     let returnStatement = "SELECT name FROM sqlite_master where type = 'table'"
     var returnPointer : OpaquePointer? = nil
@@ -79,6 +118,8 @@ func returnSectorTables(db: OpaquePointer) -> [String] {
     sqlite3_finalize(returnPointer)
     return tables
 }
+
+// rename tables
 
 func renameSectorTable(oldName: String, newName: String, db: OpaquePointer?) {
     let renameStatement = "ALTER TABLE [" + oldName + "] \n"
@@ -96,8 +137,26 @@ func renameSectorTable(oldName: String, newName: String, db: OpaquePointer?) {
     sqlite3_finalize(renamePointer)
 }
 
+func renameToDoTable(oldName: String, newName: String, db: OpaquePointer?) {
+    let renameStatement = "ALTER TABLE [" + oldName + "ToDo" +  "] \n"
+        + "RENAME TO [" + newName + "ToDo" + "];"
+    var renamePointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, renameStatement, -1, &renamePointer, nil) == SQLITE_OK {
+        if sqlite3_step(renamePointer) == SQLITE_DONE {
+            print("\(oldName) sucessfully renamed as \(newName)")
+        } else {
+            print("Table could not be renamed.")
+        }
+    } else {
+        print("Rename statement could not be prepared.")
+    }
+    sqlite3_finalize(renamePointer)
+}
+
+// insert data into tables
+
 func insertSectorData(table: String, num: Int32, desc: NSString, r: Int32, g: Int32, b: Int32, db: OpaquePointer) {
-    let stringStatement = "INSERT OR IGNORE INTO [" + table + "] (Id, Name, Color) Values (?, ?, ?)"
+    let stringStatement = "INSERT OR IGNORE INTO [" + table + "] (Id, Name, Red, Green, Blue) Values (?, ?, ?, ?, ?)"
     var insertPointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, stringStatement, -1, &insertPointer, nil) == SQLITE_OK {
         let id = num
@@ -122,6 +181,31 @@ func insertSectorData(table: String, num: Int32, desc: NSString, r: Int32, g: In
     }
     sqlite3_finalize(insertPointer)
 }
+
+func insertToDoData(table: String, num: Int32, desc: NSString, done: Int32, db: OpaquePointer) {
+    let stringStatement = "INSERT OR IGNORE INTO [" + table + "ToDo" + "] (Id, Name, Status) Values (?, ?, ?)"
+    var insertPointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, stringStatement, -1, &insertPointer, nil) == SQLITE_OK {
+        let id = num
+        let name = desc
+        let status = done
+        
+        sqlite3_bind_int(insertPointer, 1, id)
+        sqlite3_bind_text(insertPointer, 2, name.utf8String, -1, nil)
+        sqlite3_bind_int(insertPointer, 3, status)
+        
+        if sqlite3_step(insertPointer) == SQLITE_DONE {
+            print("Sucessfully inserted (\(id), \(name), \(status) into table \(table)ToDo.")
+        } else {
+            print("Data could not be inserted.")
+        }
+    } else {
+        print("INSERT statement could not be prepared")
+    }
+    sqlite3_finalize(insertPointer)
+}
+
+// return data from tables
 
 func returnSectorData(table: String, db: OpaquePointer) -> [Sector] {
     var sectorData: [Sector] = []
@@ -149,6 +233,33 @@ func returnSectorData(table: String, db: OpaquePointer) -> [Sector] {
     return sectorData
 }
 
+func returnToDoData(table: String, db: OpaquePointer) -> [ToDo] {
+    var toDoData: [ToDo] = []
+    let returnStatement = "SELECT * FROM [" + table + "ToDo" + "];"
+    var returnPointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, returnStatement, -2, &returnPointer,  nil) == SQLITE_OK {
+        while sqlite3_step(returnPointer) == SQLITE_ROW {
+            let id = sqlite3_column_int(returnPointer, 0)
+            let cText = sqlite3_column_text(returnPointer, 1)
+            let name = String(cString: cText!)
+            let status = sqlite3_column_int(returnPointer, 2)
+            
+            let toDo = ToDo(id: Int(id), sector: Sector(id: 0))
+            toDo.updateName(name: name)
+            if status == 1{
+                toDo.isDone()
+            }
+            toDoData.append(toDo)
+        }
+    } else {
+        print("SELECT statement could not be prepared.")
+    }
+    sqlite3_finalize(returnPointer)
+    return toDoData
+}
+
+// delete data from tables
+
 func deleteSectorData(table: String, id: Int32, db: OpaquePointer) {
     let deleteStatement = "DELETE FROM [" + table + "] WHERE Id = " + String(id) + ";"
     var deletePointer: OpaquePointer? = nil
@@ -163,6 +274,23 @@ func deleteSectorData(table: String, id: Int32, db: OpaquePointer) {
     }
     sqlite3_finalize(deletePointer)
 }
+
+func deleteToDoData(table: String, id: Int32, db: OpaquePointer) {
+    let deleteStatement = "DELETE FROM [" + table + "ToDo] WHERE Id = " + String(id) + ";"
+    var deletePointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, deleteStatement, -1, &deletePointer, nil) == SQLITE_OK {
+        if sqlite3_step(deletePointer) == SQLITE_DONE {
+            print("Row deleted.")
+        } else {
+            print("Row could not be deleted.")
+        }
+    } else {
+        print("DELETE statement could not be prepared.")
+    }
+    sqlite3_finalize(deletePointer)
+}
+
+// update data from tables
 
 func updateSectorName(name: String, table: String, id: Int32, db: OpaquePointer) {
     let updateStatement = "UPDATE [" + table + "] SET Name = '" + name + "' WHERE Id = " + String(id) + ";"
@@ -196,6 +324,9 @@ func updateSectorColor(r: Int32, g: Int32, b: Int32, table: String, id: Int32, d
     }
     sqlite3_finalize(updatePointer)
 }
+
+// need to update toDo data !! 
+// close database connection
 
 func closeConnection(db: OpaquePointer) {
     if sqlite3_close(db) == SQLITE_OK {
