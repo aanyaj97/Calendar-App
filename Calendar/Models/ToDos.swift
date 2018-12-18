@@ -39,4 +39,19 @@ class ToDo {
         self.status = !self.status
     }
     
+    func saveToDB(db: OpaquePointer) {
+        var binaryStatus = 0
+        if self.status {
+            binaryStatus = 1
+        }
+        insertToDoData(table: self.sector.name, num: Int32(self.id), desc: self.name as NSString, done: Int32(binaryStatus) , db: db)
+    }
+    
+    func updateToDB(db: OpaquePointer) {
+        var binaryStatus = 0
+        if self.status {
+            binaryStatus = 1
+        }
+        updateToDoData(name: self.name, table: self.sector.name, id: self.id, status: binaryStatus, db: db)
+    }
 }

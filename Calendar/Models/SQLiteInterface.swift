@@ -307,8 +307,9 @@ func updateSectorName(name: String, table: String, id: Int32, db: OpaquePointer)
     sqlite3_finalize(updatePointer)
 }
 
-func updateSectorColor(r: Int32, g: Int32, b: Int32, table: String, id: Int32, db: OpaquePointer) {
-    let updateStatement = "UPDATE [" + table + "] SET Red = " + String(r) + ", \n"
+func updateSectorData(name: String, r: Int, g: Int, b: Int, table: String, id: Int, db: OpaquePointer) {
+    let updateStatement = "UPDATE [" + table + "] SET Name = '" + name + "', \n"
+                          + "Red = " + String(r) + ", \n"
                           + "Green = " + String(g) + ", \n"
                           + "Blue = " + String(b)
                           + "WHERE Id = " + String(id) + ";"
@@ -325,7 +326,23 @@ func updateSectorColor(r: Int32, g: Int32, b: Int32, table: String, id: Int32, d
     sqlite3_finalize(updatePointer)
 }
 
-// need to update toDo data !! 
+func updateToDoData(name: String, table: String, id: Int, status: Int, db: OpaquePointer) {
+    let updateStatement = "UPDATE [" + table + "ToDo] SET Name = '" + name + "',\n"
+                          + "Status = " + String(status)
+                          + "WHERE Id = " + String(id) + ";"
+    var updatePointer: OpaquePointer? = nil
+    if sqlite3_prepare_v2(db, updateStatement, -1, &updatePointer, nil) == SQLITE_OK {
+        if sqlite3_step(updatePointer) == SQLITE_DONE {
+            print("Sucessfully updated row.")
+        } else {
+            print("Row could not be updated.")
+        }
+    } else {
+        print("UPDATE statement could not be prepared.")
+    }
+    sqlite3_finalize(updatePointer)
+}
+
 // close database connection
 
 func closeConnection(db: OpaquePointer) {

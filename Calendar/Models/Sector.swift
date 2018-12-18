@@ -25,14 +25,12 @@ class Sector {
         self.color = color
     }
     
-    func updateColorFromCustom(r: Int, g: Int, b: Int, db: OpaquePointer) {
+    func updateColorFromCustom(r: Int, g: Int, b: Int) {
         self.color = (r,g,b)
-        updateSectorColor(r: Int32(self.color.0), g: Int32(self.color.1), b: Int32(self.color.2), table: "Sectors", id: Int32(self.id), db: db)
     }
     
-    func updateName(name: String, db: OpaquePointer) {
+    func updateName(name: String) {
         self.name = name
-        updateSectorName(name: self.name, table: "Sectors", id: Int32(self.id), db: db)
     }
     
     func returnUIColor() -> UIColor {
@@ -41,5 +39,9 @@ class Sector {
     
     func saveToDB(db: OpaquePointer) {
         insertSectorData(table: "Sectors", num: Int32(self.id), desc: self.name as NSString, r: Int32(self.color.0), g: Int32(self.color.1), b: Int32(self.color.2), db: db)
+    }
+    
+    func updateToDB(db: OpaquePointer) {
+        updateSectorData(name: self.name, r: self.color.0, g: self.color.1, b: self.color.2, table: "Sectors", id: self.id, db: db)
     }
 }
