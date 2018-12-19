@@ -182,13 +182,17 @@ func insertSectorData(table: String, num: Int32, desc: NSString, r: Int32, g: In
     sqlite3_finalize(insertPointer)
 }
 
-func insertToDoData(table: String, num: Int32, desc: NSString, done: Int32, db: OpaquePointer) {
+func insertToDoData(table: String, num: Int32, desc: NSString, done: Bool, db: OpaquePointer) {
+    var binaryDone = Int32(0)
+    if done {
+        binaryDone = Int32(1)
+    }
     let stringStatement = "INSERT OR IGNORE INTO [" + table + "ToDo" + "] (Id, Name, Status) Values (?, ?, ?)"
     var insertPointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, stringStatement, -1, &insertPointer, nil) == SQLITE_OK {
         let id = num
         let name = desc
-        let status = done
+        let status = binaryDone
         
         sqlite3_bind_int(insertPointer, 1, id)
         sqlite3_bind_text(insertPointer, 2, name.utf8String, -1, nil)
@@ -292,27 +296,12 @@ func deleteToDoData(table: String, id: Int32, db: OpaquePointer) {
 
 // update data from tables
 
-func updateSectorName(name: String, table: String, id: Int32, db: OpaquePointer) {
-    let updateStatement = "UPDATE [" + table + "] SET Name = '" + name + "' WHERE Id = " + String(id) + ";"
-    var updatePointer: OpaquePointer? = nil
-    if sqlite3_prepare_v2(db, updateStatement, -1, &updatePointer, nil) == SQLITE_OK {
-        if sqlite3_step(updatePointer) == SQLITE_DONE {
-            print("Successfully updated row.")
-        } else {
-            print("Row could not be updated.")
-        }
-    } else {
-        print("UPDATE statement could not be prepared.")
-    }
-    sqlite3_finalize(updatePointer)
-}
-
 func updateSectorData(name: String, r: Int, g: Int, b: Int, table: String, id: Int, db: OpaquePointer) {
     let updateStatement = "UPDATE [" + table + "] SET Name = '" + name + "', \n"
                           + "Red = " + String(r) + ", \n"
                           + "Green = " + String(g) + ", \n"
                           + "Blue = " + String(b)
-                          + "WHERE Id = " + String(id) + ";"
+                          + " WHERE Id = " + String(id) + ";"
     var updatePointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, updateStatement, -1, &updatePointer, nil) == SQLITE_OK {
         if sqlite3_step(updatePointer) == SQLITE_DONE {
@@ -326,10 +315,14 @@ func updateSectorData(name: String, r: Int, g: Int, b: Int, table: String, id: I
     sqlite3_finalize(updatePointer)
 }
 
-func updateToDoData(name: String, table: String, id: Int, status: Int, db: OpaquePointer) {
+func updateToDoData(name: String, table: String, id: Int, status: Bool, db: OpaquePointer) {
+    var binaryDone = 0
+    if status {
+        binaryDone = 1
+    }
     let updateStatement = "UPDATE [" + table + "ToDo] SET Name = '" + name + "',\n"
-                          + "Status = " + String(status)
-                          + "WHERE Id = " + String(id) + ";"
+                          + "Status = " + String(binaryDone)
+                          + " WHERE Id = " + String(id) + ";"
     var updatePointer: OpaquePointer? = nil
     if sqlite3_prepare_v2(db, updateStatement, -1, &updatePointer, nil) == SQLITE_OK {
         if sqlite3_step(updatePointer) == SQLITE_DONE {
