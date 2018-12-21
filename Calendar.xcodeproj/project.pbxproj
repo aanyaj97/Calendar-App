@@ -19,6 +19,7 @@
 		389711C721A8EB9700297C11 /* CalendarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389711C621A8EB9700297C11 /* CalendarUITests.swift */; };
 		38E285C621C6FE6600C5E439 /* ToDos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E285C521C6FE6600C5E439 /* ToDos.swift */; };
 		38F16A1821CB0899006A109D /* ColorSchemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F16A1721CB0899006A109D /* ColorSchemes.swift */; };
+		38F6D8B421CD83BC00A8D2B8 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6D8B321CD83BC00A8D2B8 /* ToDoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		389711C821A8EB9700297C11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38E285C521C6FE6600C5E439 /* ToDos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDos.swift; sourceTree = "<group>"; };
 		38F16A1721CB0899006A109D /* ColorSchemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemes.swift; sourceTree = "<group>"; };
+		38F6D8B321CD83BC00A8D2B8 /* ToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		38A2F53021C8A024004E6645 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				38F6D8B321CD83BC00A8D2B8 /* ToDoViewController.swift */,
 				38F16A1921CB08AB006A109D /* Design */,
 				389711A721A8EB9700297C11 /* Main.storyboard */,
 			);
@@ -306,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38F6D8B421CD83BC00A8D2B8 /* ToDoViewController.swift in Sources */,
 				389711A621A8EB9700297C11 /* ViewController.swift in Sources */,
 				38874EA121C6EBC10071C2BE /* Sector.swift in Sources */,
 				389711AC21A8EB9700297C11 /* Calendar.xcdatamodeld in Sources */,

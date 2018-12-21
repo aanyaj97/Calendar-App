@@ -13,12 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = darkTheme.background
         }
-    
-    func loadUI() {
-        // programatically add table views 
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
