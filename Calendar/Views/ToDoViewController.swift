@@ -10,23 +10,44 @@ import UIKit
 
 class ToDoViewController: UIViewController, UITableViewDataSource {
     
-    let toDoView = UITableView()
-    toDoView.datasource = self
+    func addData() {
+        let db = openConnection()
+        if let db = db {
+            createSectorTable(name: "Sectors", db: db)
+            insertSectorData(table: "Sectors", num: 0, desc: "Home", r: 45, g: 45, b: 45, db: db)
+            createToDoTable(sectorName: "Home", db: db)
+            insertToDoData(table: "Home", num: 0, desc: "Clean Room", done: false, db: db)
+            insertToDoData(table: "Home", num: 1, desc: "Cook Dinner", done: false, db: db)
+        }
+    }
     
-    func pullData() {
-        // pull SQLite data for display
+    let toDoView = UITableView()
+    
+    func pullData() -> [ToDo] {
+        let db = openConnection()
+        if let db = db {
+            return returnToDoData(table: "Home", db: db)
+        }
+        else {
+            return []
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        let data = pullData()
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let data = pullData()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "toDoCell", for: indexPath)
+        cell.textLabel?.text = data[indexPath.row].name
+        return cell
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addData()
         view.backgroundColor = darkTheme.background
         view.addSubview(toDoView)
         toDoView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +55,8 @@ class ToDoViewController: UIViewController, UITableViewDataSource {
         toDoView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         toDoView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         toDoView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        toDoView.dataSource = self
+        toDoView.register(UITableViewCell.self, forCellReuseIdentifier: "toDoCell")
         
         // Do any additional setup after loading the view.
     }
