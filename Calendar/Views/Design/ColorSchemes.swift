@@ -19,7 +19,7 @@ struct ColorScheme {
 }
 
 let darkBackground = UIColor(red: 31/255, green: 29/255, blue: 28/255, alpha: 1.0)
-let darkForeground = UIColor(red: 36/255, green: 39/255, blue: 42/255, alpha: 0.75)
+let darkForeground = UIColor(red: 41/255, green: 42/255, blue: 44/255, alpha: 0.75)
 let darkTitleText = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
 let darkSubtitleText = UIColor(red: 234/255, green: 167/255, blue: 167/255, alpha: 1.0)
 let darkMainText = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)

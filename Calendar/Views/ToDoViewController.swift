@@ -33,6 +33,13 @@ class ToDoViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    func setUpNavigation() {
+        navigationItem.title = "To Do"
+        self.navigationController?.navigationBar.barTintColor = darkTheme.background
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: darkTheme.mainText]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let data = pullData()
         return data.count
@@ -48,13 +55,14 @@ class ToDoViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         addData()
+        setUpNavigation()
         view.backgroundColor = darkTheme.background
         view.addSubview(toDoView)
         toDoView.translatesAutoresizingMaskIntoConstraints = false
-        toDoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        toDoView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        toDoView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        toDoView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        toDoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        toDoView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        toDoView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        toDoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         toDoView.dataSource = self
         toDoView.register(UITableViewCell.self, forCellReuseIdentifier: "toDoCell")
         
